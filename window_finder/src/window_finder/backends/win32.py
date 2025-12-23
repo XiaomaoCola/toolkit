@@ -27,7 +27,13 @@ class Win32WindowFinder:
             pass
 
     def find_windows(self, keyword: str, *, case_sensitive: bool = False) -> List[WindowInfo]:
+        # 这里面有个星号 * 的意思是：从这里往后，参数只能用“关键字方式”传。
+        # 例子：def f(a, b):   print(a, b)。 前面这个代码 f(1, 2) 和 f(1, b=2) 都可以得到 (1,2)这个结果。
+        # 但是有 * 的情况， def f(a, *, b):  print(a, b)。 就只能f(1, b=2)才行， b这个关键字得写出来。
         matches: List[WindowInfo] = []
+        # 其他格式的例子：x: int = 10，y: str = "hello"。
+        # 前面的部分matches: List[WindowInfo]，叫做类型注释。当然后面必须 加上 = []。
+        # 写成matches = []也行，但是，IDE 不知道里面该放啥，容易误用。
 
         if not keyword:
             return matches
@@ -36,8 +42,11 @@ class Win32WindowFinder:
         if case_sensitive:
             def is_match(title: str) -> bool:
                 return keyword in title
+            # in 这个语法是用来“子串判断”。
+            # 例子： "abc" in "xxabcxx"   这会返回True  ，  "abc" in "ab"   这会返回False 。
         else:
             low_kw = keyword.lower()
+            # .lower() 的意思是：把字符串全部变成小写。
             def is_match(title: str) -> bool:
                 return low_kw in title.lower()
 
@@ -77,6 +86,15 @@ class Win32WindowFinder:
             )
 
         win32gui.EnumWindows(enum_handler, None)
+        # “让 Windows 把当前系统里所有窗口，一个一个拿出来，
+        # 对每一个窗口都调用一次 enum_handler，并把窗口的句柄 hwnd 传给它。”
+        # 例子（原理一样）：
+        # def walk(callback, data):
+        #     for x in [1, 2, 3]:
+        #         callback(x, data)
+        # def handler(x, _):
+        #     print(x)
+        # walk(handler, None)
         return matches
 
     def find_first(self, keyword: str, *, case_sensitive: bool = False) -> Optional[WindowInfo]:
