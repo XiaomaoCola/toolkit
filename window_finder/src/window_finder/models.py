@@ -4,6 +4,9 @@ from dataclasses import dataclass
 from typing import Optional, Tuple, Union
 
 RectLTRB = Tuple[int, int, int, int]  # left, top, right, bottom
+# 这边是为了可读性，理由如下：
+# 不定义RectLTRB = Tuple[int, int, int, int]的话，
+# rect_ltrb: Optional[RectLTRB] = None 就会变成rect_ltrb: Optional[Tuple[int, int, int, int]] = None。
 
 @dataclass(frozen=True)
 class WindowInfo:
@@ -16,12 +19,17 @@ class WindowInfo:
     - rect_ltrb: optional (some platforms may not provide)
     """
     native_id: Optional[Union[int, str]]
+    # Union[int, str] 的意思是：“多选一”，即，要么是 int，要么是 str。
+    # Optional[X]的意思是：Optional[X] == Union[X, None]。
+    # 所以Optional[Union[int, str]]等价于：Union[int, str, None]。
     title: str
     rect_ltrb: Optional[RectLTRB] = None
+    # = None 这是 默认值。这个意思是：如果创建 WindowInfo 时 不传 rect_ltrb，那它就是 None。
     pid: Optional[int] = None
     app_name: Optional[str] = None
 
     @property
+    # @property = 把“由数据算出来的值”，伪装成“只读属性”，即“对数据的一种安全、统一、可维护的访问方式”。
     def left_top(self) -> Optional[Tuple[int, int]]:
         if not self.rect_ltrb:
             return None
