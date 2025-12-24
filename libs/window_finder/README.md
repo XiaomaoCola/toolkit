@@ -16,8 +16,10 @@ window_finder/
 
 由于README.md里应该放最小示例。
 所以给出如下代码作为用法参考。
+
 ```python
-from window_finder import create_window_finder
+from libs.window_finder import create_window_finder
+
 finder = create_window_finder()
 win = finder.find_first("BlueStacks")
 ```
