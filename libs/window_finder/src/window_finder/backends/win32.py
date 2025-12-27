@@ -75,6 +75,24 @@ class Win32WindowFinder:
                 window_rect = None
             # GetWindowRect(hwnd) 返回4 个数：l, t, r, b。
 
+            # ---------------- client rect (客户区) ----------------
+            client_rect: Optional[RectLTRB] = None
+            try:
+                cl, ct, cr, cb = win32gui.GetClientRect(hwnd)  # (0,0,cw,ch) in client coords
+                # GetClientRect 得到的是“客户区自身坐标系”，左上角永远是 (0,0)
+
+                client_left_top = win32gui.ClientToScreen(hwnd, (0, 0))
+                screen_cx, screen_cy = int(client_left_top[0]), int(client_left_top[1])
+                # ClientToScreen(hwnd, (0, 0)) 相当于问 Windows：“这个窗口的客户区左上角 (0,0)，在屏幕上的位置是多少？”
+
+                cw = int(cr - cl)
+                ch = int(cb - ct)
+                client_rect = (screen_cx, screen_cy, screen_cx + max(0, cw), screen_cy + max(0, ch))
+                # 右下角 = 左上角 + (cw, ch)
+            except Exception:
+                client_rect = None
+
+            # ---------------- pid ----------------
             pid: Optional[int] = None
             try:
                 _, pid_ = win32process.GetWindowThreadProcessId(hwnd)
@@ -88,6 +106,7 @@ class Win32WindowFinder:
                     native_id=int(hwnd),
                     title=title,
                     window_rect_ltrb=window_rect,
+                    client_rect_ltrb=client_rect,
                     pid=pid,
                     app_name=None,  # 进程名你也可以后面用 psutil 补上
                 )
