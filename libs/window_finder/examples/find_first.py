@@ -8,8 +8,8 @@ if not win:
     raise SystemExit
 
 print("Title:", win.title)
-print("LT:", win.left_top)                       # (left, top)
-print("LTWH:", win.left_top_width_height)        # (left, top, width, height)
-print("LTRB:", win.rect_ltrb)                    # (left, top, right, bottom)
+print("LT:", win.window_left_top)                       # (left, top)
+print("LTWH:", win.window_left_top_width_height)        # (left, top, width, height)
+print("LTRB:", win.window_rect_ltrb)                    # (left, top, right, bottom)
 print("PID:", win.pid)
 print("native_id:", win.native_id)

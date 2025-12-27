@@ -79,7 +79,7 @@ class Win32WindowFinder:
                 WindowInfo(
                     native_id=int(hwnd),
                     title=title,
-                    rect_ltrb=rect,
+                    window_rect_ltrb=rect,
                     pid=pid,
                     app_name=None,  # 进程名你也可以后面用 psutil 补上
                 )
