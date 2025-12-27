@@ -53,20 +53,27 @@ class Win32WindowFinder:
         def enum_handler(hwnd, _):
             if not win32gui.IsWindowVisible(hwnd):
                 return
+            # IsWindowVisible(hwnd)：窗口是否可见（visible）。
+            # 不可见的直接跳过（return 结束这次回调）。
 
             title = win32gui.GetWindowText(hwnd) or ""
+            # GetWindowText(hwnd)：获取窗口标题栏文字，比如 “Google Chrome”。
+            # 有些窗口可能返回 "" 或 None，所以用 or "" 保底，确保 title 一定是字符串，避免后面 .strip() 报错。
             if not title.strip():
                 return
+            # title.strip() 会去掉左右空格，如果去掉空格后还是空字符串，说明标题就是空的。
 
             if not is_match(title):
                 return
 
-            rect: Optional[RectLTRB] = None
+            # ---------------- window rect (外框) ----------------
+            window_rect: Optional[RectLTRB] = None
             try:
                 l, t, r, b = win32gui.GetWindowRect(hwnd)
-                rect = (int(l), int(t), int(r), int(b))
+                window_rect = (int(l), int(t), int(r), int(b))
             except Exception:
-                rect = None
+                window_rect = None
+            # GetWindowRect(hwnd) 返回4 个数：l, t, r, b。
 
             pid: Optional[int] = None
             try:
@@ -74,12 +81,13 @@ class Win32WindowFinder:
                 pid = int(pid_)
             except Exception:
                 pid = None
+            # GetWindowThreadProcessId(hwnd) 返回：(thread_id, process_id)。
 
             matches.append(
                 WindowInfo(
                     native_id=int(hwnd),
                     title=title,
-                    window_rect_ltrb=rect,
+                    window_rect_ltrb=window_rect,
                     pid=pid,
                     app_name=None,  # 进程名你也可以后面用 psutil 补上
                 )
