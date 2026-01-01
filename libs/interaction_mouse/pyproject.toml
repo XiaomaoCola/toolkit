@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "interaction-mouse"
+version = "0.1.0"
+description = "Reusable mouse interaction actions (click/repeat/random click/drag) with pluggable drivers."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Zhang Xiang" }]
+dependencies = [
+    # keep empty by default; pyautogui is optional and imported lazily
+]
+
+[project.optional-dependencies]
+pyautogui = ["pyautogui>=0.9.54"]
+test = ["pytest>=7.4"]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

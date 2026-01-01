@@ -33,3 +33,6 @@ runs/**/weights/last.pt
 *.tmp
 debug/
 screenshot/temp/
+
+# 构建产物
+*.egg-info/
