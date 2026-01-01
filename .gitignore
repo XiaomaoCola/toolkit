@@ -1,16 +1,10 @@
 # Python 运行时文件
 __pycache__/
-*.pyc
-*.pyo
+*.py[cod]
 *.pyd
 
 # 虚拟环境
-.venv/
-.venv1/
-.venv2/
-.venv3/
-.venv4/
-.venv5/
+.venv*/
 venv/
 env/
 
@@ -24,15 +18,13 @@ Thumbs.db
 Desktop.ini
 
 # 敏感信息
-*.env
-
-# 只忽略训练过程中的中间模型
-runs/**/weights/last.pt
+.env
+.env.*
+!.env.example
+!.env.template
 
 # 临时文件
 *.tmp
-debug/
-screenshot/temp/
 
 # 构建产物
 *.egg-info/
