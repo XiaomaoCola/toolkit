@@ -1,4 +1,4 @@
-from libs.window_finder import create_window_finder
+from window_finder import create_window_finder
 
 finder = create_window_finder()
 
