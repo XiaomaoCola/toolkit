@@ -2,7 +2,7 @@ from interaction_mouse import Clicker, Button
 from interaction_mouse.models import WindowNormalizedPoint
 
 if __name__ == "__main__":
-    c = Clicker()
+    c = Clicker(move_duration = (0.2 , 0.5))
 
     # 点击BlueStacks，Builder Base的村庄场景的左下角的Attack按钮。
     target = WindowNormalizedPoint(
@@ -12,4 +12,4 @@ if __name__ == "__main__":
         button=Button.LEFT,
     )
 
-    c.click_window_norm(target)
+    c.click_window_norm_point(target, jitter_px=10)

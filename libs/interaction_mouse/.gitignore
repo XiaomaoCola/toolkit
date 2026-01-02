@@ -1,0 +1,5 @@
+*.egg-info/
+
+# 开发环境配置
+.vscode/
+.idea/

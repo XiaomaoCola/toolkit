@@ -61,3 +61,19 @@ class WindowNormalizedPoint:
     x: float
     y: float
     button: Button = Button.LEFT
+
+@dataclass(frozen=True, slots=True)
+class WindowNormalizedRect:
+    """
+    A rectangle defined by:
+    - window keyword
+    - normalized rectangle (left, top, right, bottom) inside client area
+
+    All coordinates are in normalized space [0.0, 1.0].
+    """
+    keyword: str
+    left: float
+    top: float
+    right: float
+    bottom: float
+    button: Button = Button.LEFT

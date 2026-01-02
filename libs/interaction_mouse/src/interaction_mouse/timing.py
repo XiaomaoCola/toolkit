@@ -22,6 +22,9 @@ def sample_delay(d: Delay) -> float:
 
 
 def sleep(seconds: Delay) -> None:
+    """
+    把 time.sleep 从“标准库函数”，升级成 领域函数。
+    """
     time.sleep(sample_delay(seconds))
 
 
